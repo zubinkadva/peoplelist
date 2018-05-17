@@ -1,0 +1,169 @@
+Implement the demo app as seen on
+
+https://www.youtube.com/watch?v=3-XPBtAfcqo
+
+ 
+
+As you're going through the demo, you may find some things that are omitted or aren’t completely explained.  Some of those that you’ll need to do (in roughly the order you'll need them )may include:
+
+ 
+
+ 
+
+Install Atom
+
+Add atom.exe directory (probably something like c:\Users\{your name}\AppData\Local\atom\bin to system environment variable Path
+
+(be sure to save files in atom before trying to execute or reference them)
+
+ 
+
+ 
+
+Create  Ethereum\peoplelist\2_deploy_contracts.js with contents of
+
+var People = artifacts.require("./People.sol");
+
+ 
+
+module.exports = function(deployer) {
+
+  //deployer.deploy(ConvertLib);
+
+  //deployer.autolink();
+
+  deployer.deploy(People);
+
+};
+
+ 
+
+ 
+
+In the People.sol contract, but a pragma line at the top
+
+ 
+
+ 
+
+if on Windows, use truffle.cmd rather than just truffle (e.g. truffle.cmd compile, truffle.cmd migrate, truffle.cmd console)
+
+ 
+
+ 
+
+Modify the contents of Ethereum\peoplelist\truffle.js to:
+
+module.exports = {
+
+   networks: {
+
+   development: {
+
+   host: "127.0.0.1",
+
+   port: 8545,
+
+   network_id: "*" // Match any network id
+
+  }
+
+ }
+
+};
+
+ 
+
+ 
+
+run testrpc before truffle.cmd migrate
+
+ 
+
+ 
+
+in truffle console
+
+- use People.address instead of People.deployed().address (same with People.abi)
+
+- to execute a contract function through truffle console, use the following format:
+
+People.deployed().then(function(instance) {return instance.getPeople.call()})
+
+which would call the getPeople function in the deployed People contract
+
+- if the function takes parameters those are passed in the call, so the addPerson call would be something like
+
+People.deployed().then(function(instance) {return instance.addPerson.call(“John”,”Doe”,25)})
+
+which should return true
+
+ 
+
+Ctrl-C to exit
+
+ 
+
+ 
+
+for the react app part:
+
+add web3 to Ethereum\peoplelistui\package.json (which they show you) so the contents would be
+
+{
+
+  "name": "peoplelistui",
+
+  "version": "0.1.0",
+
+  "private": true,
+
+  "dependencies": {
+
+    "react": "^16.3.0",
+
+    "react-dom": "^16.3.0",
+
+    "react-scripts": "1.1.1",
+
+    "web3": "^1.0.0-beta.33"
+
+  },
+
+  "scripts": {
+
+    "start": "react-scripts start",
+
+    "build": "react-scripts build",
+
+    "test": "react-scripts test --env=jsdom",
+
+    "eject": "react-scripts eject"
+
+  }
+
+}
+
+ 
+
+ 
+
+if you don’t have it already, set your Python environment variable to wherever you have it installed.  For example on my system  I have system variable Python defined as
+
+C:\Program Files\Python36\python.exe
+
+ 
+
+run the command
+
+npm --add-python-to-path='true' --debug install --global windows-build-tools
+
+ 
+
+ 
+
+ 
+
+All that should take you up to about the 32:00 mark on the demo video.
+
+Everyonen should be prepared to demo what they have
